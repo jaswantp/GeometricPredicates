@@ -40,7 +40,7 @@ foreach(TESTCODE ${TESTCODES})
   set (TESTNAME "Test${TESTCODE}")
   add_header_test (${TESTNAME}
       SOURCES
-        "${TESTNAME}.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/${TESTNAME}.cpp"
       INCLUDEDIR
         "${CMAKE_CURRENT_LIST_DIR}"
       DEPENDS 
