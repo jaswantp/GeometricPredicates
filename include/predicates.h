@@ -1,3 +1,4 @@
+// clang-format off
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                 *
  * Copyright (c) 2019, William C. Lenthe                                           *
@@ -893,3 +894,4 @@ namespace  predicates {
 }
 
 #endif
+// clang-format on

@@ -35,94 +35,112 @@
 
 #include "predicates.h"
 
-#if( __cplusplus == 201103L || __cplusplus == 201703L || __cplusplus == 201703L || __cplusplus > 201703L)
-	#define CXX_RANDOM//better random number generation
-	#include <random>
+#if (__cplusplus == 201103L || __cplusplus == 201703L || __cplusplus == 201703L ||                 \
+  __cplusplus > 201703L)
+#define CXX_RANDOM // better random number generation
+#include <random>
 #endif
 
 //@brief : generate a random number in [0,1]
 //@return: number in [0,1]
-double rand01() {
+double rand01()
+{
 #ifdef CXX_RANDOM
-	//prefer c++11 random number generation
-	static std::random_device device;
-	static const size_t seed = device();
-	static std::mt19937 engine(seed);
-	static std::uniform_real_distribution<double> dist(0.0, 1.0);
-	return dist(engine);
+  // prefer c++11 random number generation
+  static std::random_device device;
+  static const size_t seed = device();
+  static std::mt19937 engine(seed);
+  static std::uniform_real_distribution<double> dist(0.0, 1.0);
+  return dist(engine);
 #else
-	//fall back to bad random numbers
-	static bool once = true;
-	if(once) {
-		srand(time(NULL));
-		once = false;
-	}
-	return double(rand()) / RAND_MAX;
+  // fall back to bad random numbers
+  static bool once = true;
+  if (once)
+  {
+    srand(time(NULL));
+    once = false;
+  }
+  return double(rand()) / RAND_MAX;
 #endif
 }
 
-int main() {
-	std::vector<double> points(15);
-	for(size_t i = 0; i < points.size(); i++) points[i] = rand01();
+int main()
+{
+  std::vector<double> points(15);
+  for (size_t i = 0; i < points.size(); i++)
+    points[i] = rand01();
 
-	double x = predicates::adaptive::orient2d<double>(&points[0], &points[2], &points[4]);
-	std::cout << "(" << points[4] << " " << points[5];
-	if(x < 0.0) std::cout << ") is below the line defined by:\n";
-	else if(x > 0.0) std::cout << ") is above the line defined by:\n";
-	else std::cout << ") is on the line defined by:\n";
-	std::cout << "\t(" << points[0] << " " << points[1] << ")\n";
-	std::cout << "\t(" << points[2] << " " << points[3] << ")\n\n";
+  double x = predicates::adaptive::orient2d<double>(&points[0], &points[2], &points[4]);
+  std::cout << "(" << points[4] << " " << points[5];
+  if (x < 0.0)
+    std::cout << ") is below the line defined by:\n";
+  else if (x > 0.0)
+    std::cout << ") is above the line defined by:\n";
+  else
+    std::cout << ") is on the line defined by:\n";
+  std::cout << "\t(" << points[0] << " " << points[1] << ")\n";
+  std::cout << "\t(" << points[2] << " " << points[3] << ")\n\n";
 
-	x = predicates::adaptive::incircle<double>(&points[0], &points[2], &points[4], &points[6]);
-	std::cout << "(" << points[6] << " " << points[7];
-	if(x < 0.0) std::cout << ") is outside the circle defined by:\n";
-	else if(x > 0.0) std::cout << ") is inside the circle defined by:\n";
-	else std::cout << ") is on the circle defined by:\n";
-	std::cout << "\t(" << points[0] << " " << points[1] << ")\n";
-	std::cout << "\t(" << points[2] << " " << points[3] << ")\n";
-	std::cout << "\t(" << points[4] << " " << points[5] << ")\n\n";
+  x = predicates::adaptive::incircle<double>(&points[0], &points[2], &points[4], &points[6]);
+  std::cout << "(" << points[6] << " " << points[7];
+  if (x < 0.0)
+    std::cout << ") is outside the circle defined by:\n";
+  else if (x > 0.0)
+    std::cout << ") is inside the circle defined by:\n";
+  else
+    std::cout << ") is on the circle defined by:\n";
+  std::cout << "\t(" << points[0] << " " << points[1] << ")\n";
+  std::cout << "\t(" << points[2] << " " << points[3] << ")\n";
+  std::cout << "\t(" << points[4] << " " << points[5] << ")\n\n";
 
-	x = predicates::adaptive::orient3d<double>(&points[0], &points[3], &points[6], &points[9]);
-	std::cout << "(" << points[9] << " " << points[10] << " " << points[11];
-	if(x < 0.0) std::cout << ") is below the plane defined by:\n";
-	else if(x > 0.0) std::cout << ") is above the plane defined by:\n";
-	else std::cout << ") is on the plane defined by:\n";
-	std::cout << "\t(" << points[0] << " " << points[1]  << " " << points[2] << ")\n";
-	std::cout << "\t(" << points[3] << " " << points[4]  << " " << points[5] << ")\n";
-	std::cout << "\t(" << points[6] << " " << points[7]  << " " << points[8] << ")\n\n";
+  x = predicates::adaptive::orient3d<double>(&points[0], &points[3], &points[6], &points[9]);
+  std::cout << "(" << points[9] << " " << points[10] << " " << points[11];
+  if (x < 0.0)
+    std::cout << ") is below the plane defined by:\n";
+  else if (x > 0.0)
+    std::cout << ") is above the plane defined by:\n";
+  else
+    std::cout << ") is on the plane defined by:\n";
+  std::cout << "\t(" << points[0] << " " << points[1] << " " << points[2] << ")\n";
+  std::cout << "\t(" << points[3] << " " << points[4] << " " << points[5] << ")\n";
+  std::cout << "\t(" << points[6] << " " << points[7] << " " << points[8] << ")\n\n";
 
-	x = predicates::adaptive::insphere<double>(&points[0], &points[3], &points[6], &points[9], &points[12]);
-	std::cout << "(" << points[12] << " " << points[13] << " " << points[14];
-	if(x < 0.0) std::cout << ") is outside the sphere defined by:\n";
-	else if(x > 0.0) std::cout << ") is inside the sphere defined by:\n";
-	else std::cout << ") is on the sphere defined by:\n";
-	std::cout << "\t(" << points[0] << " " << points[ 1]  << " " << points[ 2] << ")\n";
-	std::cout << "\t(" << points[3] << " " << points[ 4]  << " " << points[ 5] << ")\n";
-	std::cout << "\t(" << points[6] << " " << points[ 7]  << " " << points[ 8] << ")\n";
-	std::cout << "\t(" << points[9] << " " << points[10]  << " " << points[11] << ")\n";
-	
-	// robustness test and visualization
-	{ 
-		const double p1[2] = { 0.0, 0.0 };
-		const double p2[2] = { 24., 24. };
-		const int resolution = 80;
-		const double eps = std::pow(2.0, -53);
-		std::cout << "Testing 2D orientation robustness" << std::endl;
-		std::cout << "line             : from (0, 0) to (24, 24)" << std::endl;
-		std::cout << "bottom-left point: (0.5, 0.5)" << std::endl;
-		std::cout << "step-size        : 2^-53" << std::endl;
-		for (int iy = resolution - 1; iy >= 0; --iy)
-		{
-			for (int ix = 0; ix < resolution; ++ix)
-			{
-				const double p[2] = { 0.5 + ix * eps, 0.5 + iy * eps };
-				using predicates::adaptive::orient2d;
-				const double res = orient2d<double>(&p1[0], &p2[0], &p[0]);
-				std::cout << (res == 0.0 ? "0" : res < 0.0 ? "-" : "+");
-			}
-			std::cout << std::endl;
-		}
-	}
-	
-	return 0;	
+  x = predicates::adaptive::insphere<double>(
+    &points[0], &points[3], &points[6], &points[9], &points[12]);
+  std::cout << "(" << points[12] << " " << points[13] << " " << points[14];
+  if (x < 0.0)
+    std::cout << ") is outside the sphere defined by:\n";
+  else if (x > 0.0)
+    std::cout << ") is inside the sphere defined by:\n";
+  else
+    std::cout << ") is on the sphere defined by:\n";
+  std::cout << "\t(" << points[0] << " " << points[1] << " " << points[2] << ")\n";
+  std::cout << "\t(" << points[3] << " " << points[4] << " " << points[5] << ")\n";
+  std::cout << "\t(" << points[6] << " " << points[7] << " " << points[8] << ")\n";
+  std::cout << "\t(" << points[9] << " " << points[10] << " " << points[11] << ")\n";
+
+  // robustness test and visualization
+  {
+    const double p1[2] = { 0.0, 0.0 };
+    const double p2[2] = { 24., 24. };
+    const int resolution = 80;
+    const double eps = std::pow(2.0, -53);
+    std::cout << "Testing 2D orientation robustness" << std::endl;
+    std::cout << "line             : from (0, 0) to (24, 24)" << std::endl;
+    std::cout << "bottom-left point: (0.5, 0.5)" << std::endl;
+    std::cout << "step-size        : 2^-53" << std::endl;
+    for (int iy = resolution - 1; iy >= 0; --iy)
+    {
+      for (int ix = 0; ix < resolution; ++ix)
+      {
+        const double p[2] = { 0.5 + ix * eps, 0.5 + iy * eps };
+        using predicates::adaptive::orient2d;
+        const double res = orient2d<double>(&p1[0], &p2[0], &p[0]);
+        std::cout << (res == 0.0 ? "0" : res < 0.0 ? "-" : "+");
+      }
+      std::cout << std::endl;
+    }
+  }
+
+  return 0;
 }
