@@ -34,7 +34,6 @@ set (TESTCODES
   InSphere
   Orient2d
   Orient3d
-  Robustness
 )
 foreach(TESTCODE ${TESTCODES})
   set (TESTNAME "Test${TESTCODE}")
