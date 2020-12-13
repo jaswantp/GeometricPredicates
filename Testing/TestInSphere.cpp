@@ -42,12 +42,6 @@ int main(int argc, char** argv)
   result &= testInSphereExact<double>(
     1, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1,
     [&](const double l, const double r) noexcept -> bool { return l == r; }, "cospherical");
-  result &= testInSphereExact<double>(
-    1, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 0, std::nextafter(-1, 0),
-    [&](const double l, const double r) noexcept -> bool { return l > r; }, "near inside");
-  result &= testInSphereExact<double>(
-    1, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 0, std::nextafter(-1, -2),
-    [&](const double l, const double r) noexcept -> bool { return l < r; }, "near below");
 
   result &= testInSphereAdaptive<double>(
     1, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
@@ -57,12 +51,6 @@ int main(int argc, char** argv)
     [&](const double l, const double r) noexcept -> bool { return l < r; }, "outside");
   result &= testInSphereAdaptive<double>(
     1, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1,
-    [&](const double l, const double r) noexcept -> bool { return l == r; }, "cospherical");
-  result &= testInSphereAdaptive<double>(
-    1, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 0, std::nextafter(-1, 0),
-    [&](const double l, const double r) noexcept -> bool { return l == r; }, "cospherical");
-  result &= testInSphereAdaptive<double>(
-    1, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 0, std::nextafter(-1, -2),
     [&](const double l, const double r) noexcept -> bool { return l == r; }, "cospherical");
   return result ? EXIT_SUCCESS : EXIT_FAILURE;
 }

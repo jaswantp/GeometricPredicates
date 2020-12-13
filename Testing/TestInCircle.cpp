@@ -1,6 +1,5 @@
 #include "predicates.h"
 #include "testing.h"
-#include <cmath> // nextafter
 
 template <typename T, typename Comparator>
 bool testInCircleExact(const T& ax, const T& ay, const T& bx, const T& by, const T& cx, const T& cy,
@@ -53,12 +52,6 @@ int main(int argc, char** argv)
   result &= testInCircleExact<double>(
     0, -1, 1, 0, 0, 1, 1.5, 0,
     [&](const double l, const double r) noexcept -> bool { return l < r; }, "outside");
-  result &= testInCircleExact<double>(
-    1, 0, 0, 1, -1, 0, 0, std::nextafter(-1, 0),
-    [&](const double l, const double r) noexcept -> bool { return l > r; }, "near inside");
-  result &= testInCircleExact<double>(
-    1, 0, 0, 1, -1, 0, 0, std::nextafter(-1, -2),
-    [&](const double l, const double r) noexcept -> bool { return l < r; }, "near outside");
 
   result &= testInCircleAdapt<double>(
     0, -1, 1, 0, 0, 1, 0, 0, [&](const double l, const double r) noexcept -> bool { return l > r; },
@@ -75,12 +68,6 @@ int main(int argc, char** argv)
     [&](const double l, const double r) noexcept -> bool { return l == r; }, "concyclic");
   result &= testInCircleAdapt<double>(
     0, -1, 1, 0, 0, 1, -1, 0,
-    [&](const double l, const double r) noexcept -> bool { return l == r; }, "concyclic");
-  result &= testInCircleAdapt<double>(
-    1, 0, 0, 1, -1, 0, 0, std::nextafter(-1, 0),
-    [&](const double l, const double r) noexcept -> bool { return l == r; }, "concyclic");
-  result &= testInCircleAdapt<double>(
-    1, 0, 0, 1, -1, 0, 0, std::nextafter(-1, -2),
     [&](const double l, const double r) noexcept -> bool { return l == r; }, "concyclic");
 
   result &= testInCircleAdapt<double>(
