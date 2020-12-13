@@ -48,7 +48,7 @@ double rand01()
 #ifdef CXX_RANDOM
   // prefer c++11 random number generation
   static std::random_device device;
-  static const size_t seed = device();
+  static const unsigned int seed = device();
   static std::mt19937 engine(seed);
   static std::uniform_real_distribution<double> dist(0.0, 1.0);
   return dist(engine);
