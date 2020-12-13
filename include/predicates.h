@@ -39,6 +39,7 @@
 namespace  predicates {
 	//@brief: geometric predicates using arbitrary precision arithmetic 
 	//@note : these are provided primarily for illustrative purposes and adaptive routines should be preferred
+	//@warning : return values are documented for when points are in CCW order
 	namespace exact {
 		//@brief   : determine if the 2d point c is above, on, or below the line defined by a and b
 		//@param pa: pointer to a as {x, y}
