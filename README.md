@@ -3,15 +3,17 @@
 
 A C++ header-only library for *robust*/*exact* Geometric predicates based on [Jonathan Shewchuk's papers and c code](https://www.cs.cmu.edu/~quake/robust.html)
 
-Refer to detailed [paper](https://www.cs.cmu.edu/afs/cs/project/quake/public/papers/robust-predicates.abstract) for notions of the terms *robust* and *exact* used here.
+Refer to detailed [paper](https://www.cs.cmu.edu/afs/cs/project/quake/public/papers/robust-predicates.abstract) for notions of the terms *robust* and *exact*.
 
 # Summary:
 The orientation and incircle tests evaluate the sign of a matrix determinant.
-As Schewchuck's [paper](https://www.cs.cmu.edu/afs/cs/project/quake/public/papers/robust-predicates.abstract) describes, a sequence of approximations to the determinant is computed until the accuracy of the *sign* is assured. 
+As Schewchuck's [paper](https://www.cs.cmu.edu/afs/cs/project/quake/public/papers/robust-predicates.abstract) describes, a series of approximations to the determinant is computed until the accuracy of the *sign* is assured.
 
-`predicates::adaptive::` when *slight* perturbations to input parameters *should* result in similar results. Use this almost always
+TLDR;
 
-`predicates::exact::` else where when exact arithmetic is needed. Very slow. Avoid this.
+`predicates::adaptive::` when *slight* perturbations to input parameters *should* result in similar results. Use this almost always.
+
+`predicates::exact::` when you prefer exact arithmetic. Very slow. Avoid this.
 
 Predicates: 
  1. `incircle(pa, pb, pc, pd)`
@@ -19,7 +21,8 @@ Predicates:
  3. `orient2d(pa, pb, pc)`
  4. `orient3d(pa, pb, pc, pd)`
 
-How to use in another C++ project with a CMake build system?
+# Consumption:
+Ex: Within C++ project that uses `CMake >= 3.14`
 ```
 ### Root CMakeLists.txt for a project named 'fish'
 
@@ -29,7 +32,7 @@ FetchContent_Declare(
 	extern_GeometricPredicates
 
 	GIT_REPOSITORY https://github.com/jaswantp/GeometricPredicates.git
-	GIT_TAG	v1.0-rc1
+	GIT_TAG	v1.0
 )
 
 FetchContent_MakeAvailable(extern_GeometricPredicates)
